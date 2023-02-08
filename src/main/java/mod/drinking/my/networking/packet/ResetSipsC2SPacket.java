@@ -1,5 +1,7 @@
 package mod.drinking.my.networking.packet;
 
+import mod.drinking.my.networking.ModMessages;
+
 import mod.drinking.my.sipcount.PlayerSipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
@@ -41,8 +43,15 @@ public class ResetSipsC2SPacket {
                 sips.reset_sips();
                 player.sendSystemMessage(Component.literal("Current Sips " + sips.get_sips() + "\nTotal Sips: " + sips.get_totalSips())
                         .withStyle(ChatFormatting.YELLOW));
+
+                ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips()), player);
+
             });
         });
         return true;
     }
+
 }
+
+
+
