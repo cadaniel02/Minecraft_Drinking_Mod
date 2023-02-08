@@ -1,6 +1,6 @@
 package mod.drinking.my.networking;
 
-import mod.drinking.my.DrinkingModMain;
+import mod.drinking.my.DrinkingMod;
 import mod.drinking.my.networking.packet.ExampleC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,7 +19,7 @@ public class ModMessages {
 
     public static void register(){
         SimpleChannel net = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(DrinkingModMain.MODID, "messages"))
+                .named(new ResourceLocation(DrinkingMod.MODID, "messages"))
                 .networkProtocolVersion(() -> "1.0")
                 .clientAcceptedVersions(s -> true)
                 .serverAcceptedVersions(s -> true)

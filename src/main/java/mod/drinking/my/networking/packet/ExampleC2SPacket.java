@@ -1,8 +1,12 @@
 package mod.drinking.my.networking.packet;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.ItemStack;
@@ -11,6 +15,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class ExampleC2SPacket {
+    private static final String MESSAGE_RESET_SIPS = "message.drinkingmod.reset_sips";
     public ExampleC2SPacket(){
 
     }
@@ -28,8 +33,13 @@ public class ExampleC2SPacket {
             ServerPlayer player = context.getSender();
             ServerLevel level = player.getLevel();
 
-            EntityType.COW.spawn(level, (ItemStack) null, null, player.blockPosition(),
-                    MobSpawnType.COMMAND, true, false);
+            // Notify the player that they have crafted an item
+            player.sendSystemMessage(Component.translatable(MESSAGE_RESET_SIPS).withStyle(ChatFormatting.GOLD));
+            //
+            level.playSound(null, player.getOnPos(), SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS,
+                    0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+            //
+
         });
         return true;
     }

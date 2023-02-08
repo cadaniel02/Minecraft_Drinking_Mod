@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 public class PlayerSips {
     private int sips;
     private int totalSips;
-    private final int MIN_THIRST = 0;
+    private final int MIN_SIPS = 0;
 
     public int get_sips(){
         return sips;
@@ -13,15 +13,15 @@ public class PlayerSips {
     public int get_totalSips() {return totalSips; }
 
     public void add_sips(int add){
-        sips = Math.min(sips + add, MIN_THIRST);
-        totalSips = Math.min(totalSips + add, MIN_THIRST);
+        sips = Math.min(sips + add, MIN_SIPS);
+        totalSips = Math.min(totalSips + add, MIN_SIPS);
     }
 
     public void reset_sips(){
-        sips = MIN_THIRST;
+        sips = MIN_SIPS;
     }
 
-    public void reset_total_sips(){totalSips = MIN_THIRST; }
+    public void reset_total_sips(){totalSips = MIN_SIPS; }
 
     public void copyFrom(PlayerSips source){
         this.sips = source.sips;

@@ -1,6 +1,6 @@
 package mod.drinking.my.events;
 
-import mod.drinking.my.DrinkingModMain;
+import mod.drinking.my.DrinkingMod;
 import mod.drinking.my.sipcount.PlayerSips;
 import mod.drinking.my.sipcount.PlayerSipsProvider;
 import net.minecraft.network.chat.Component;
@@ -10,14 +10,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = DrinkingModMain.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class ModClientEvents {
+@Mod.EventBusSubscriber(modid = DrinkingMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+public class ModEvents {
 
     @SubscribeEvent
     public static void onCraftAddSip(PlayerEvent.ItemCraftedEvent event){
@@ -31,7 +29,7 @@ public class ModClientEvents {
     public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
         if(event.getObject() instanceof Player) {
             if(!event.getObject().getCapability(PlayerSipsProvider.PLAYER_SIPS).isPresent()) {
-                event.addCapability(new ResourceLocation(DrinkingModMain.MODID, "properties"), new PlayerSipsProvider());
+                event.addCapability(new ResourceLocation(DrinkingMod.MODID, "properties"), new PlayerSipsProvider());
             }
         }
     }
