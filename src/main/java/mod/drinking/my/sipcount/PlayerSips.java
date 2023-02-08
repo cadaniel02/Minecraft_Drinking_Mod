@@ -1,5 +1,5 @@
 package mod.drinking.my.sipcount;
-
+import mod.drinking.my.client.ClientSipData;
 import net.minecraft.nbt.CompoundTag;
 public class PlayerSips {
     private int sips;
@@ -15,6 +15,7 @@ public class PlayerSips {
     public void add_sips(int add){
         sips = Math.min(sips + add, MIN_SIPS);
         totalSips = Math.min(totalSips + add, MIN_SIPS);
+        ClientSipData.set(sips);
     }
 
     public void reset_sips(){

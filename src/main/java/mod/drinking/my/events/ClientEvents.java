@@ -9,6 +9,8 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import mod.drinking.my.client.DrinkHUD;
 
 public class ClientEvents {
     @Mod.EventBusSubscriber(modid = DrinkingMod.MODID, value = Dist.CLIENT)
@@ -26,6 +28,10 @@ public class ClientEvents {
         @SubscribeEvent
         public static void onKeyRegister(RegisterKeyMappingsEvent event) {
             event.register(KeyBinding.RESET_KEY);
+        }
+        @SubscribeEvent
+        public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+            event.registerAboveAll("thirst", DrinkHUD.HUD_DRINK);
         }
     }
 }
