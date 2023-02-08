@@ -31,6 +31,7 @@ public class ResetSipsC2SPacket {
             ServerPlayer player = context.getSender();
             ServerLevel level = player.getLevel();
 
+
             // Notify the player that they have crafted an item
             player.sendSystemMessage(Component.translatable(MESSAGE_RESET_SIPS).withStyle(ChatFormatting.GOLD));
             //
