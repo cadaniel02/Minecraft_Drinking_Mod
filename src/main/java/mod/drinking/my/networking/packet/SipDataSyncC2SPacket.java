@@ -1,7 +1,7 @@
 package mod.drinking.my.networking.packet;
 
+import mod.drinking.my.client.ClientSipData;
 import mod.drinking.my.networking.ModMessages;
-
 import mod.drinking.my.sipcount.PlayerSipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,45 +14,38 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ResetSipsC2SPacket {
+public class SipDataSyncC2SPacket {
+    private final int sips;
+    private final int totalsips;
     private static final String MESSAGE_RESET_SIPS = "message.drinkingmod.reset_sips";
-    public ResetSipsC2SPacket(){
-
+    public SipDataSyncC2SPacket(int sips, int totalsips){
+        this.sips = sips;
+        this.totalsips = totalsips;
     }
-    public ResetSipsC2SPacket(FriendlyByteBuf buf){
+    public SipDataSyncC2SPacket(FriendlyByteBuf buf){
+        this.sips = buf.readInt();
+        this.totalsips = buf.readInt();
 
     }
     public void toBytes(FriendlyByteBuf buf){
-
+        buf.writeInt(sips);
+        buf.writeInt(totalsips);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
+
         context.enqueueWork(() -> {
-            // HERE WE ARE ON THE SERVER!
+// HERE WE ARE ON THE SERVER!
+
             ServerPlayer player = context.getSender();
-            ServerLevel level = player.getLevel();
 
-
-            // Notify the player that they have crafted an item
-            player.sendSystemMessage(Component.translatable(MESSAGE_RESET_SIPS).withStyle(ChatFormatting.GOLD));
-            //
-            level.playSound(null, player.getOnPos(), SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS,
-                    0.5F, level.random.nextFloat() * 0.1F + 0.9F);
-            //
             player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
-                sips.reset_sips();
+                sips.set_sips(this.sips, this.totalsips);
                 player.sendSystemMessage(Component.literal("Current Sips " + sips.get_sips() + "\nTotal Sips: " + sips.get_totalSips())
-                        .withStyle(ChatFormatting.YELLOW));
-
-                ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips()), player);
-
+                        .withStyle(ChatFormatting.BLUE));
             });
         });
         return true;
     }
-
 }
-
-
-
