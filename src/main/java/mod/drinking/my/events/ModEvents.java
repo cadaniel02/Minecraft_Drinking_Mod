@@ -21,7 +21,8 @@ public class ModEvents {
     public static void onCraftAddSip(PlayerEvent.ItemCraftedEvent event){
         event.getEntity().getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
                 sips.add_sips(1);
-                event.getEntity().sendSystemMessage(Component.literal("Adding Crafting Sip :)"));
+                event.getEntity().sendSystemMessage(Component.literal("Adding Crafting Sip :) " +
+                        "Current Sips: " + sips.get_sips() + "\nTotal Sips: " + sips.get_totalSips()));
         });
     }
 

@@ -1,3 +1,7 @@
 {
+  "key.category.drinkingmod.drinking": "Drinking Mod",
+  "key.drinkingmod.reset_sips": "Drink Sips",
 
+  "message.drinkingmod.reset_sips" : "DRINK YOUR SIPS :D :D :D",
+  "message.drinkingmod.no_sips" : "You don't need to drink right now :/"
 }

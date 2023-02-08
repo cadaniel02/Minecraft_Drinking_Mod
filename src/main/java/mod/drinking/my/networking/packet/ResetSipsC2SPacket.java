@@ -1,5 +1,6 @@
 package mod.drinking.my.networking.packet;
 
+import mod.drinking.my.sipcount.PlayerSipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -7,19 +8,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ExampleC2SPacket {
+public class ResetSipsC2SPacket {
     private static final String MESSAGE_RESET_SIPS = "message.drinkingmod.reset_sips";
-    public ExampleC2SPacket(){
+    public ResetSipsC2SPacket(){
 
     }
-    public ExampleC2SPacket(FriendlyByteBuf buf){
+    public ResetSipsC2SPacket(FriendlyByteBuf buf){
 
     }
     public void toBytes(FriendlyByteBuf buf){
@@ -39,7 +37,11 @@ public class ExampleC2SPacket {
             level.playSound(null, player.getOnPos(), SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS,
                     0.5F, level.random.nextFloat() * 0.1F + 0.9F);
             //
-
+            player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
+                sips.reset_sips();
+                player.sendSystemMessage(Component.literal("Current Sips " + sips.get_sips() + "\nTotal Sips: " + sips.get_totalSips())
+                        .withStyle(ChatFormatting.YELLOW));
+            });
         });
         return true;
     }

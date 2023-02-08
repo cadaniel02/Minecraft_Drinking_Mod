@@ -1,7 +1,7 @@
 package mod.drinking.my.networking;
 
 import mod.drinking.my.DrinkingMod;
-import mod.drinking.my.networking.packet.ExampleC2SPacket;
+import mod.drinking.my.networking.packet.ResetSipsC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -27,10 +27,10 @@ public class ModMessages {
 
         INSTANCE = net;
 
-        net.messageBuilder(ExampleC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(ExampleC2SPacket::new)
-                .encoder(ExampleC2SPacket::toBytes)
-                .consumerMainThread(ExampleC2SPacket::handle)
+        net.messageBuilder(ResetSipsC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(ResetSipsC2SPacket::new)
+                .encoder(ResetSipsC2SPacket::toBytes)
+                .consumerMainThread(ResetSipsC2SPacket::handle)
                 .add();
     }
 
