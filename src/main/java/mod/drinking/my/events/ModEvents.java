@@ -25,7 +25,7 @@ public class ModEvents {
     public static void onCraftAddSip(PlayerEvent.ItemCraftedEvent event){
         event.getEntity().getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
                 sips.add_sips(1);
-                ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips()), ((ServerPlayer) event.getEntity()));
+//                ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips()), ((ServerPlayer) event.getEntity()));
                 event.getEntity().sendSystemMessage(Component.literal("Adding Crafting Sip :) " +
                         "Current Sips: " + sips.get_sips() + "\nTotal Sips: " + sips.get_totalSips()));
         });
@@ -39,6 +39,7 @@ public class ModEvents {
             }
         }
     }
+
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if(event.isWasDeath()) {

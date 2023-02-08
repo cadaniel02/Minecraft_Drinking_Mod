@@ -1,7 +1,7 @@
 package mod.drinking.my.networking;
 
 import mod.drinking.my.DrinkingMod;
-import mod.drinking.my.networking.packet.ExampleC2SPacket;
+
 import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
 
 import mod.drinking.my.networking.packet.ResetSipsC2SPacket;
