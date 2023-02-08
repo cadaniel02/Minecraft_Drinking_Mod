@@ -13,9 +13,8 @@ public class PlayerSips {
     public int get_totalSips() {return totalSips; }
 
     public void add_sips(int add){
-        sips = Math.min(sips + add, MIN_SIPS);
-        totalSips = Math.min(totalSips + add, MIN_SIPS);
-//        ClientSipData.set(sips);
+        sips = Math.max(sips + add, MIN_SIPS);
+        totalSips = Math.max(totalSips + add, MIN_SIPS);
     }
 
     public void reset_sips(){

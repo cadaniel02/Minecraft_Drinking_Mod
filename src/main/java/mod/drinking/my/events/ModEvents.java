@@ -26,7 +26,8 @@ public class ModEvents {
         event.getEntity().getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
                 sips.add_sips(1);
                 ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips()), ((ServerPlayer) event.getEntity()));
-                event.getEntity().sendSystemMessage(Component.literal("Adding Crafting Sip :)"));
+                event.getEntity().sendSystemMessage(Component.literal("Adding Crafting Sip :) " +
+                        "Current Sips: " + sips.get_sips() + "\nTotal Sips: " + sips.get_totalSips()));
         });
     }
 
