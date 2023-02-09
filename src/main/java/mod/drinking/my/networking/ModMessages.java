@@ -2,9 +2,9 @@ package mod.drinking.my.networking;
 
 import mod.drinking.my.DrinkingMod;
 
-import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
-
 import mod.drinking.my.networking.packet.ResetSipsC2SPacket;
+import mod.drinking.my.networking.packet.SipDataSyncC2SPacket;
+import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -30,7 +30,6 @@ public class ModMessages {
                 .simpleChannel();
 
         INSTANCE = net;
-
         net.messageBuilder(ResetSipsC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(ResetSipsC2SPacket::new)
                 .encoder(ResetSipsC2SPacket::toBytes)
@@ -41,6 +40,12 @@ public class ModMessages {
                 .decoder(SipDataSyncS2CPacket::new)
                 .encoder(SipDataSyncS2CPacket::toBytes)
                 .consumerMainThread(SipDataSyncS2CPacket::handle)
+                .add();
+
+        net.messageBuilder(SipDataSyncC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SipDataSyncC2SPacket::new)
+                .encoder(SipDataSyncC2SPacket::toBytes)
+                .consumerMainThread(SipDataSyncC2SPacket::handle)
                 .add();
     }
 
