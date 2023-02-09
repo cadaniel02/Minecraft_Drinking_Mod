@@ -35,10 +35,23 @@ public class DrinkHUD {
     private static final ResourceLocation EMPTY_THIRST = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/empty_thirst.png");
 
-    public static final IGuiOverlay HUD_DRINK = ((gui, poseStack, partialTick, width, height) -> {
+
+    public static final IGuiOverlay HUD_SIPTIME = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
         int y = height;
 
+        int textSize = 90;
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        ResourceLocation number = new ResourceLocation(DrinkingMod.MODID,
+                "textures/drinks/takesip.png");
+        RenderSystem.setShaderTexture(20, number);
+        GuiComponent.blit(poseStack,width - width/5 + 3 , height/4 + 29,0,0,textSize,textSize,
+                textSize,textSize);
+    });
+    public static final IGuiOverlay HUD_DRINK = ((gui, poseStack, partialTick, width, height) -> {
+        int x = width / 2;
+        int y = height;
 
 
 

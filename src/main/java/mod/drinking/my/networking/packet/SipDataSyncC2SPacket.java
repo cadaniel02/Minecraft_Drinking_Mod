@@ -37,6 +37,7 @@ public class SipDataSyncC2SPacket {
 
             player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
                 sips.set_sips(this.sips, this.totalsips);
+
                 player.sendSystemMessage(Component.literal("Current Sips " + sips.get_sips() + "\nTotal Sips: " + sips.get_totalSips())
                         .withStyle(ChatFormatting.BLUE));
             });
