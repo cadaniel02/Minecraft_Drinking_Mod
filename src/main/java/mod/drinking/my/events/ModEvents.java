@@ -9,11 +9,16 @@ import mod.drinking.my.networking.packet.SipDataSyncC2SPacket;
 import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
 import mod.drinking.my.sipcount.PlayerSips;
 import mod.drinking.my.sipcount.PlayerSipsProvider;
+import net.minecraft.advancements.critereon.EntityHurtPlayerTrigger;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -70,6 +75,21 @@ public class ModEvents {
             }
             ClientWetData.setWet(event.player.isInWater() || (ClientWetData.isWet() && hasWaterUnderThem(player, level)));
         }
+
+    }
+
+    @SubscribeEvent
+    public static void onTakeDamage(TickEvent.PlayerTickEvent event){
+        if(event.side == LogicalSide.SERVER) {
+            Player player = event.player;
+            Level level = player.level;
+
+            if (ClientSipData.getPlayerSips() > 0 && event.player.getRandom().nextFloat() < 0.005f) {
+                    player.attack(player);
+                    level.playSound(null, player.getOnPos(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+            }
+        }
+
     }
 
     @SubscribeEvent
