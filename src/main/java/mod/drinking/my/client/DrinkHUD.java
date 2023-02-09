@@ -5,13 +5,10 @@ import mod.drinking.my.networking.ModMessages;
 import mod.drinking.my.networking.packet.SipDataSyncC2SPacket;
 import mod.drinking.my.sipcount.PlayerSipsProvider;
 
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.player.LocalPlayer;
 
-
-import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
