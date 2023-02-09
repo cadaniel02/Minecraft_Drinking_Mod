@@ -84,7 +84,7 @@ public class ModEvents {
 
             if (ClientSipData.getPlayerSips() > 0 && event.player.getRandom().nextFloat() < 0.005f) {
                     player.attack(player);
-                    level.playSound(null, player.getOnPos(), SoundEvents.WARDEN_EMERGE, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+                    level.playSound(null, player.getOnPos(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
             }
         }
     }
