@@ -2,6 +2,7 @@ package mod.drinking.my.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mod.drinking.my.sipcount.PlayerSipsProvider;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.player.LocalPlayer;
@@ -16,10 +17,15 @@ import net.minecraft.client.gui.GuiComponent;
 public class DrinkHUD {
     private static final ResourceLocation FILLED_THIRST = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/filled_thirst.png");
+
     private static final ResourceLocation NO_SIPS = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/has_sips2.png");
     private static final ResourceLocation BOTTLE = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/has_sips1.png");
+
+    private static final ResourceLocation EMPTY_THIRST = new ResourceLocation(DrinkingMod.MODID,
+            "textures/drinks/empty_thirst.png");
+
     public static final IGuiOverlay HUD_DRINK = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
         int y = height;
@@ -29,6 +35,8 @@ public class DrinkHUD {
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+
 
             if(ClientSipData.getPlayerSips() == 0){
                 RenderSystem.setShaderTexture(0, NO_SIPS);
@@ -86,3 +94,4 @@ public class DrinkHUD {
 
         });
     }
+
