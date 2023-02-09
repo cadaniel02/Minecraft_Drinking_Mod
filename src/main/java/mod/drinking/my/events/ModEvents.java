@@ -10,6 +10,7 @@ import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
 import mod.drinking.my.sipcount.PlayerSips;
 import mod.drinking.my.sipcount.PlayerSipsProvider;
 import net.minecraft.advancements.critereon.EntityHurtPlayerTrigger;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -35,9 +36,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import org.jline.utils.Log;
-
-
-
 
 
 @Mod.EventBusSubscriber(modid = DrinkingMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -77,6 +75,7 @@ public class ModEvents {
             }
             ClientWetData.setWet(event.player.isInWater() || (ClientWetData.isWet() && hasWaterUnderThem(player, level)));
         }
+
     }
 
     @SubscribeEvent
@@ -90,6 +89,7 @@ public class ModEvents {
                     level.playSound(null, player.getOnPos(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
             }
         }
+
     }
 
     @SubscribeEvent
