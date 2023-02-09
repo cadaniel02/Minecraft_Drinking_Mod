@@ -1,15 +1,10 @@
 package mod.drinking.my.networking.packet;
 
-import mod.drinking.my.client.ClientSipData;
-import mod.drinking.my.networking.ModMessages;
 import mod.drinking.my.sipcount.PlayerSipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
