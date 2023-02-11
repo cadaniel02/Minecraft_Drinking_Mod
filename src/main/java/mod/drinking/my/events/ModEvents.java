@@ -20,6 +20,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -70,6 +72,9 @@ public class ModEvents {
             if (player.isInWater() && !ClientWetData.isWet()) {
                 player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
                     ClientSipData.add(1);
+                    level.playSound(null, player.getOnPos(), SoundEvents.COW_MILK, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+                    //TODO
+                    //change player name to append sips
                     ModMessages.sendToServer(new SipDataSyncC2SPacket(ClientSipData.getPlayerSips(), ClientSipData.getTotalSips()));
                 });
             }
@@ -86,6 +91,8 @@ public class ModEvents {
 
             if (ClientSipData.getPlayerSips() > 0 && event.player.getRandom().nextFloat() < 0.005f) {
                     player.attack(player);
+                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.1f);
+
                     level.playSound(null, player.getOnPos(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
             }
         }
@@ -111,6 +118,7 @@ public class ModEvents {
             });
         }
     }
+
     @SubscribeEvent
     public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
         if(!event.getLevel().isClientSide()) {
