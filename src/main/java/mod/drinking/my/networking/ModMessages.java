@@ -2,6 +2,7 @@ package mod.drinking.my.networking;
 
 import mod.drinking.my.DrinkingMod;
 
+import mod.drinking.my.networking.packet.ResetSipsC2SPacket;
 import mod.drinking.my.networking.packet.SipDataSyncC2SPacket;
 import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
 
@@ -29,6 +30,11 @@ public class ModMessages {
                 .simpleChannel();
 
         INSTANCE = net;
+        net.messageBuilder(ResetSipsC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(ResetSipsC2SPacket::new)
+                .encoder(ResetSipsC2SPacket::toBytes)
+                .consumerMainThread(ResetSipsC2SPacket::handle)
+                .add();
 
         net.messageBuilder(SipDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(SipDataSyncS2CPacket::new)

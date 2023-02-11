@@ -3,6 +3,7 @@ package mod.drinking.my.events;
 import mod.drinking.my.DrinkingMod;
 import mod.drinking.my.client.ClientSipData;
 import mod.drinking.my.networking.ModMessages;
+import mod.drinking.my.networking.packet.ResetSipsC2SPacket;
 import mod.drinking.my.networking.packet.SipDataSyncC2SPacket;
 import mod.drinking.my.util.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,8 +20,8 @@ public class ClientEvents {
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
             if(KeyBinding.RESET_KEY.consumeClick()) {
-                ClientSipData.set(0 , ClientSipData.getTotalSips());
-                ModMessages.sendToServer(new SipDataSyncC2SPacket(0, ClientSipData.getTotalSips()));
+                ClientSipData.set(0, ClientSipData.getTotalSips());
+                ModMessages.sendToServer(new ResetSipsC2SPacket());
             }
         }
     }
