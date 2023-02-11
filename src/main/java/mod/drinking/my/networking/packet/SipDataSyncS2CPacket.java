@@ -34,8 +34,8 @@ public class SipDataSyncS2CPacket {
             ClientSipData.set(sips, totalsips);
 
             LocalPlayer player = Minecraft.getInstance().player;
-            player.sendSystemMessage(Component.literal("Current Sips " + sips + "\nTotal Sips: " + totalsips)
-                    .withStyle(ChatFormatting.YELLOW));
+//            player.sendSystemMessage(Component.literal("Current Sips " + sips + "\nTotal Sips: " + totalsips)
+//                    .withStyle(ChatFormatting.YELLOW));
 
         });
 

@@ -3,5 +3,6 @@
   "key.drinkingmod.reset_sips": "Drink Sips",
 
   "message.drinkingmod.reset_sips" : "DRINK YOUR SIPS :D :D :D",
-  "message.drinkingmod.no_sips" : "You don't need to drink right now :/"
+  "message.drinkingmod.no_sips" : "You don't need to drink right now :/",
+  "death.message" : "You DIED. Finish your drink"
 }
