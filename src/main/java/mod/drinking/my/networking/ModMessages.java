@@ -2,10 +2,8 @@ package mod.drinking.my.networking;
 
 import mod.drinking.my.DrinkingMod;
 
-import mod.drinking.my.networking.packet.ResetSipsC2SPacket;
-import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
+import mod.drinking.my.networking.packet.*;
 
-import mod.drinking.my.networking.packet.WetDataSyncS2CPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;

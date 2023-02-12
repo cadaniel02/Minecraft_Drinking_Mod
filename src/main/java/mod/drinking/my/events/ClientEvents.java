@@ -27,12 +27,11 @@ public class ClientEvents {
                         ModMessages.sendToServer(new ResetSipsC2SPacket());
                     }
                 }
-
-
-
             }
         }
     }
+
+
 
     @Mod.EventBusSubscriber(modid = DrinkingMod.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModBusEvents {

@@ -13,7 +13,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -64,11 +63,14 @@ public class ModEvents {
     }
     @SubscribeEvent
     public static void onCraftAddSip(PlayerEvent.ItemCraftedEvent event){
-            if(event.getEntity() instanceof ServerPlayer player)
-                player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
+                if (sips.get_timer() <= 0) {
                     sips.add_sips(1);
                     ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), player);
-        });
+                }
+            });
+        }
     }
 
     @SubscribeEvent
@@ -77,8 +79,10 @@ public class ModEvents {
             if(event.player instanceof ServerPlayer player) {
                 if (player.isInWater() && !ClientWetData.isWet()) {
                     player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
-                        sips.add_sips(1);
-                        ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), player);
+                        if(sips.get_timer() <= 0) {
+                            sips.add_sips(1);
+                            ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), player);
+                        }
                     });
                 }
                 boolean check = event.player.isInWater() || (ClientWetData.isWet() && hasWaterUnderThem(player, player.getLevel()));
@@ -101,6 +105,19 @@ public class ModEvents {
             }
         }
 
+    }
+
+    @SubscribeEvent
+    public static void decrementSipTimer(TickEvent.PlayerTickEvent event){
+        if(event.side == LogicalSide.SERVER) {
+            if(event.player instanceof ServerPlayer player){
+                player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
+                    if (sips.get_timer() > 0) {
+                        sips.dec_timer();
+                    }
+                });
+            }
+        }
     }
 
     @SubscribeEvent

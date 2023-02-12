@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 public class PlayerSips {
     private int sips;
     private int totalSips;
+    private int siptimer;
     private final int MIN_SIPS = 0;
 
     public int get_sips(){
@@ -12,10 +13,18 @@ public class PlayerSips {
 
     public int get_totalSips() {return totalSips; }
 
+    public int get_timer(){
+        return siptimer;
+    }
+
+    public void dec_timer(){
+        siptimer--;
+    }
+
     public void add_sips(int add){
         sips = Math.max(sips + add, MIN_SIPS);
         totalSips = Math.max(totalSips + add, MIN_SIPS);
-        ClientSipData.set(sips, totalSips);
+        siptimer = 50;
     }
 
     public void set_sips(int setsips, int settotalsips){
@@ -25,7 +34,6 @@ public class PlayerSips {
 
     public void reset_sips(){
         sips = MIN_SIPS;
-        ClientSipData.set(sips, totalSips);
     }
 
     public void reset_total_sips(){totalSips = MIN_SIPS; }
