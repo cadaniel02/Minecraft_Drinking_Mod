@@ -19,8 +19,17 @@ public class ClientEvents {
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
             if(KeyBinding.RESET_KEY.consumeClick()) {
-                ClientSipData.set(0, ClientSipData.getTotalSips());
-                ModMessages.sendToServer(new ResetSipsC2SPacket());
+                if (ClientSipData.getPlayerSips() > 0 || DrinkHUD.drinking){
+                    DrinkHUD.drinkThisMany = ClientSipData.getPlayerSips();
+                    DrinkHUD.drinking = !DrinkHUD.drinking;
+                    if(DrinkHUD.drinking) {
+                        ClientSipData.set(0, ClientSipData.getTotalSips());
+                        ModMessages.sendToServer(new ResetSipsC2SPacket());
+                    }
+                }
+
+
+
             }
         }
     }
