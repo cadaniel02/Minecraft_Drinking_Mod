@@ -14,6 +14,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -45,17 +46,6 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = DrinkingMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ModEvents {
-
-    @SubscribeEvent
-    public static void onAdvancementAddSip(AdvancementEvent.AdvancementEarnEvent event){
-        Player player = event.getEntity();
-            if(player instanceof ServerPlayer serverPlayer) {
-                serverPlayer.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
-                    sips.add_sips(1);
-                    ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), serverPlayer);
-                });
-        }
-    }
 
     @SubscribeEvent
     public static void onKillAddSip(LivingDeathEvent event){
@@ -183,17 +173,6 @@ public class ModEvents {
         }
     }
 
-    @SubscribeEvent
-    public void renderName(PlayerEvent.NameFormat event)
-    {
-        if(event.getEntity() instanceof ServerPlayer player) {
-            ServerLevel level = player.getLevel();
-            level.playSound(null, player.getOnPos(), SoundEvents.GHAST_SCREAM, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
-        }
-        Component c = Component.literal("AAAA");
-        event.setDisplayname(c);
-
-    }
     @SubscribeEvent
     public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
         if(!event.getLevel().isClientSide()) {
