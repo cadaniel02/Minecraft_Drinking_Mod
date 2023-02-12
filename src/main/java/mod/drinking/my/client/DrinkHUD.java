@@ -2,18 +2,9 @@ package mod.drinking.my.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mod.drinking.my.networking.ModMessages;
-import mod.drinking.my.networking.packet.SipDataSyncC2SPacket;
-import mod.drinking.my.sipcount.PlayerSipsProvider;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.player.LocalPlayer;
 
 
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraft.resources.ResourceLocation;
 import mod.drinking.my.DrinkingMod;
