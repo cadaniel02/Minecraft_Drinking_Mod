@@ -11,6 +11,7 @@ import mod.drinking.my.sipcount.PlayerSips;
 import mod.drinking.my.sipcount.PlayerSipsProvider;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -43,9 +44,25 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Objects;
+
 
 @Mod.EventBusSubscriber(modid = DrinkingMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ModEvents {
+    
+//    @SubscribeEvent
+//    public static void onAdvancementAddSip(AdvancementEvent.AdvancementEarnEvent event){
+//        Player player = event.getEntity();
+//            if(player instanceof ServerPlayer serverPlayer) {
+//                serverPlayer.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
+//                    if(!Objects.requireNonNull(event.getAdvancement().getDisplay()).isHidden())
+//                        {
+//                            sips.add_sips(1);
+//                            ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), serverPlayer);
+//                        }
+//                });
+//        }
+//    }
 
     @SubscribeEvent
     public static void onKillAddSip(LivingDeathEvent event){
