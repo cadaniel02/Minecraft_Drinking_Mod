@@ -32,6 +32,7 @@ public class PlayerSips {
 
     public void copyFrom(PlayerSips source){
         this.sips = source.sips;
+        this.totalSips = source.totalSips;
     }
 
     public void saveNBTData(CompoundTag nbt){
