@@ -4,7 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraft.resources.ResourceLocation;
 import mod.drinking.my.DrinkingMod;
@@ -15,6 +17,7 @@ public class DrinkHUD {
     public static int drinkThisMany;
     public static boolean drinking = false;
     public static float opacity = 1.0f;
+    public static float murderOpacity;
     private static final ResourceLocation FILLED_THIRST = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/filled_thirst.png");
 
@@ -32,8 +35,8 @@ public class DrinkHUD {
 
     private static final ResourceLocation SIPS = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/sips.png");
-    private static final ResourceLocation EMPTY_THIRST = new ResourceLocation(DrinkingMod.MODID,
-            "textures/drinks/empty_thirst.png");
+    private static final ResourceLocation MURDER = new ResourceLocation(DrinkingMod.MODID,
+            "textures/drinks/murder.png");
 
 
     public static final IGuiOverlay HUD_DRINK = ((gui, poseStack, partialTick, width, height) -> {
@@ -49,6 +52,7 @@ public class DrinkHUD {
         int number = ClientSipData.getTotalSips();
 
         if(drinking) {
+            Minecraft.getInstance().player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0f);
             totalX = width - width/2 - 25;
             totalY = 84;
             size = 52;
@@ -57,6 +61,8 @@ public class DrinkHUD {
             drawTakeText(poseStack, width, height);
         }
         else {
+            Minecraft.getInstance().player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.1D);
+            drawMurderText(poseStack, height, width);
             drawTotalSipAmount(poseStack, size, totalX, totalY, number);
             drawLifetimeText(poseStack, width, height);
             drawSipBox(poseStack, width, height);
@@ -66,6 +72,15 @@ public class DrinkHUD {
 
         });
 
+    private static void drawMurderText(PoseStack poseStack, int width, int height){
+        int promptSize = 200;
+
+        RenderSystem.setShaderColor(1.0F, 0F, 0F, murderOpacity);
+        RenderSystem.setShaderTexture(0, MURDER);
+        GuiComponent.blit(poseStack,width/2 , 25,0,0,promptSize,promptSize,
+                promptSize,promptSize);
+        murderOpacity -= 0.003f;
+    }
     private static void drawTakeText(PoseStack poseStack, int width, int height){
         int promptSize = 200;
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -129,21 +144,21 @@ public class DrinkHUD {
             ResourceLocation number = new ResourceLocation(DrinkingMod.MODID,
                     "textures/nums/whitenums" + numName0 +  ".png");
             RenderSystem.setShaderTexture(0, number);
-            GuiComponent.blit(poseStack,width + 7 , height,0,0,textSize,textSize,
+            GuiComponent.blit(poseStack,width -6, height,0,0,textSize,textSize,
                     textSize,textSize);
 
             //digit 1 render
             ResourceLocation number1 = new ResourceLocation(DrinkingMod.MODID,
                     "textures/nums/whitenums" + numName1 +  ".png");
             RenderSystem.setShaderTexture(0, number1);
-            GuiComponent.blit(poseStack,width + 2 , height,0,0,textSize,textSize,
+            GuiComponent.blit(poseStack,width - 2 , height,0,0,textSize,textSize,
                     textSize,textSize);
 
             //digit 2 render
             ResourceLocation number2 = new ResourceLocation(DrinkingMod.MODID,
                     "textures/nums/whitenums" + numName2 +  ".png");
             RenderSystem.setShaderTexture(0, number2);
-            GuiComponent.blit(poseStack,width + 7 , height,0,0,textSize,textSize,
+            GuiComponent.blit(poseStack,width + 2 , height,0,0,textSize,textSize,
                     textSize,textSize);
 
 

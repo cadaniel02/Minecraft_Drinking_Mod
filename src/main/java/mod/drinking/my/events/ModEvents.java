@@ -3,6 +3,7 @@ package mod.drinking.my.events;
 import mod.drinking.my.DrinkingMod;
 import mod.drinking.my.client.ClientSipData;
 import mod.drinking.my.client.ClientWetData;
+import mod.drinking.my.client.DrinkHUD;
 import mod.drinking.my.networking.ModMessages;
 import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
 import mod.drinking.my.networking.packet.WetDataSyncS2CPacket;
@@ -67,7 +68,18 @@ public class ModEvents {
                     ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), player);
                 });
             }
+        }
+    }
 
+    @SubscribeEvent
+    public static void onMurderAddSip(LivingDeathEvent event){
+        Entity entity = event.getEntity();
+        if (entity instanceof Player) {
+            if (event.getSource().getEntity() instanceof ServerPlayer player) {
+                player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
+                    DrinkHUD.murderOpacity = 1.0f;
+                });
+            }
         }
     }
     @SubscribeEvent
