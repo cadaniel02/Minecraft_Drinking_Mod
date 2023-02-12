@@ -3,6 +3,7 @@ package mod.drinking.my.events;
 import mod.drinking.my.DrinkingMod;
 import mod.drinking.my.client.ClientSipData;
 import mod.drinking.my.client.ClientWetData;
+import mod.drinking.my.client.DrinkHUD;
 import mod.drinking.my.networking.ModMessages;
 import mod.drinking.my.networking.packet.SipDataSyncS2CPacket;
 import mod.drinking.my.networking.packet.WetDataSyncS2CPacket;
@@ -16,10 +17,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
@@ -61,6 +69,18 @@ public class ModEvents {
             }
         }
     }
+
+    @SubscribeEvent
+    public static void onMurderAddSip(LivingDeathEvent event){
+        Entity entity = event.getEntity();
+        if (entity instanceof Player) {
+            if (event.getSource().getEntity() instanceof ServerPlayer player) {
+                player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
+                    DrinkHUD.murderOpacity = 1.0f;
+                });
+            }
+        }
+    }
     @SubscribeEvent
     public static void onCraftAddSip(PlayerEvent.ItemCraftedEvent event){
         if (event.getEntity() instanceof ServerPlayer player) {
@@ -97,11 +117,30 @@ public class ModEvents {
             Player player = event.player;
             Level level = player.level;
 
-            if (ClientSipData.getPlayerSips() > 0 && event.player.getRandom().nextFloat() < 0.005f) {
+            if(ClientSipData.getPlayerSips() == 0){
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+                player.removeAllEffects();
+            }
+            else if (ClientSipData.getPlayerSips() < 7){
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(16);
+            }
+            else if(ClientSipData.getPlayerSips() < 10){
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300));
+            }
+            else if (ClientSipData.getPlayerSips() < 15) {
+                if(event.player.getRandom().nextFloat() < 0.005f){
                     player.attack(player);
-                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.1f);
-
                     level.playSound(null, player.getOnPos(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+                }
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300));
+            }
+            else if(ClientSipData.getPlayerSips() >= 15){
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300));
+                player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));
+                if(event.player.getRandom().nextFloat() < 0.005f){
+                    player.attack(player);
+                    level.playSound(null, player.getOnPos(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+                }
             }
         }
 
@@ -145,9 +184,21 @@ public class ModEvents {
     }
 
     @SubscribeEvent
+    public void renderName(PlayerEvent.NameFormat event)
+    {
+        if(event.getEntity() instanceof ServerPlayer player) {
+            ServerLevel level = player.getLevel();
+            level.playSound(null, player.getOnPos(), SoundEvents.GHAST_SCREAM, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+        }
+        Component c = Component.literal("AAAA");
+        event.setDisplayname(c);
+
+    }
+    @SubscribeEvent
     public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
         if(!event.getLevel().isClientSide()) {
             if(event.getEntity() instanceof ServerPlayer player) {
+
                 player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
                     ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), player);
                 });

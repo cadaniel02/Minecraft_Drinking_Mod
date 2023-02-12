@@ -35,7 +35,7 @@ public class ResetSipsC2SPacket {
 
 
             // Notify the player that they have crafted an item
-            player.sendSystemMessage(Component.translatable(MESSAGE_RESET_SIPS).withStyle(ChatFormatting.GOLD));
+//            player.sendSystemMessage(Component.translatable(MESSAGE_RESET_SIPS).withStyle(ChatFormatting.GOLD));
             //
             level.playSound(null, player.getOnPos(), SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS,
                     0.5F, level.random.nextFloat() * 0.1F + 0.9F);
