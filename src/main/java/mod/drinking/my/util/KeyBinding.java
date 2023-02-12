@@ -10,5 +10,5 @@ public class KeyBinding {
     public static final String KEY_RESET_SIPS = "key.drinkingmod.reset_sips";
 
     public static final KeyMapping RESET_KEY = new KeyMapping(KEY_RESET_SIPS, KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_L, KEY_CATEGORY_TUTORIAL);
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, KEY_CATEGORY_TUTORIAL);
 }
