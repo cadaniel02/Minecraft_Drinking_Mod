@@ -19,10 +19,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -37,7 +41,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.jline.utils.Log;
+import org.w3c.dom.Attr;
 
 
 @Mod.EventBusSubscriber(modid = DrinkingMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -47,7 +53,6 @@ public class ModEvents {
     public static void onAdvancementAddSip(AdvancementEvent.AdvancementEarnEvent event){
         Player player = event.getEntity();
         Level level = player.level;
-
         if (level.isClientSide()){
             ClientSipData.add(1);
             ModMessages.sendToServer(new SipDataSyncC2SPacket(ClientSipData.getPlayerSips(), ClientSipData.getTotalSips()));
@@ -75,6 +80,7 @@ public class ModEvents {
                     level.playSound(null, player.getOnPos(), SoundEvents.COW_MILK, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
                     //TODO
                     //change player name to append sips
+                    player.refreshDisplayName();
                     ModMessages.sendToServer(new SipDataSyncC2SPacket(ClientSipData.getPlayerSips(), ClientSipData.getTotalSips()));
                 });
             }
@@ -89,11 +95,30 @@ public class ModEvents {
             Player player = event.player;
             Level level = player.level;
 
-            if (ClientSipData.getPlayerSips() > 0 && event.player.getRandom().nextFloat() < 0.005f) {
+            if(ClientSipData.getPlayerSips() == 0){
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+                player.removeAllEffects();
+            }
+            else if (ClientSipData.getPlayerSips() < 7){
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(16);
+            }
+            else if(ClientSipData.getPlayerSips() < 10){
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300));
+            }
+            else if (ClientSipData.getPlayerSips() < 15) {
+                if(event.player.getRandom().nextFloat() < 0.005f){
                     player.attack(player);
-                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.1f);
-
                     level.playSound(null, player.getOnPos(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+                }
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300));
+            }
+            else if(ClientSipData.getPlayerSips() >= 15){
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300));
+                player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));
+                if(event.player.getRandom().nextFloat() < 0.005f){
+                    player.attack(player);
+                    level.playSound(null, player.getOnPos(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+                }
             }
         }
 
@@ -120,9 +145,21 @@ public class ModEvents {
     }
 
     @SubscribeEvent
+    public void renderName(PlayerEvent.NameFormat event)
+    {
+        if(event.getEntity() instanceof ServerPlayer player) {
+            ServerLevel level = player.getLevel();
+            level.playSound(null, player.getOnPos(), SoundEvents.GHAST_SCREAM, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1f + 0.9F);
+        }
+        Component c = Component.literal("AAAA");
+        event.setDisplayname(c);
+
+    }
+    @SubscribeEvent
     public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
         if(!event.getLevel().isClientSide()) {
             if(event.getEntity() instanceof ServerPlayer player) {
+
                 player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
                     ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), player);
                 });

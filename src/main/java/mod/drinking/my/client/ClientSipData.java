@@ -20,6 +20,7 @@ public class ClientSipData {
     public static void set(int sips, int totalSips) {
         ClientSipData.playerSips = sips;
         ClientSipData.totalSips = totalSips;
+
     }
 
     public static void triggerSipPrompt(){

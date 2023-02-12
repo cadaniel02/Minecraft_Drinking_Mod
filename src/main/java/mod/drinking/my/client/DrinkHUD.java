@@ -32,7 +32,7 @@ public class DrinkHUD {
     private static final ResourceLocation BOTTLE = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/has_sips1.png");
     private static final ResourceLocation PRESS_L = new ResourceLocation(DrinkingMod.MODID,
-            "textures/drinks/press_l.png");
+            "textures/drinks/press_k.png");
 
     private static final ResourceLocation LIFETIME = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/total.png");
@@ -50,16 +50,12 @@ public class DrinkHUD {
         int y = height;
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-
-
         sipTriggerText(poseStack, width);
-
 
         int totalX = width - width/5 + 11;
         int totalY = height/4 + 12;
         int size = 7;
         int number = ClientSipData.getTotalSips();
-
 
         if(drinking) {
             totalX = width - width/2 - 25;
@@ -72,7 +68,6 @@ public class DrinkHUD {
         else {
             drawTotalSipAmount(poseStack, size, totalX, totalY, number);
             drawLifetimeText(poseStack, width, height);
-
             drawSipBox(poseStack, width, height);
             drawCurSipAmount(poseStack, width, height);
         }
