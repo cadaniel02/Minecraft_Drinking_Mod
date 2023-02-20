@@ -12,14 +12,27 @@ public class ClientSipData {
     private static int playerSips;
     private static int totalSips;
 
+    private static boolean takingSip;
+
     public static void set(int sips, int totalSips) {
         ClientSipData.playerSips = sips;
         ClientSipData.totalSips = totalSips;
+
+    }
+
+    public static void triggerSipPrompt(){
+        takingSip = true;
+    }
+
+    public static boolean getSipStatus(){
+        return takingSip;
     }
 
     public static void add(int add){
         playerSips += add;
         totalSips += add;
+        takingSip = true;
+        DrinkHUD.opacity = 1;
     }
 
     public static int getPlayerSips() {
