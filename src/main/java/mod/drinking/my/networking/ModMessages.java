@@ -42,10 +42,17 @@ public class ModMessages {
                 .consumerMainThread(SipDataSyncS2CPacket::handle)
                 .add();
 
+<<<<<<< Updated upstream
         net.messageBuilder(SipDataSyncC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(SipDataSyncC2SPacket::new)
                 .encoder(SipDataSyncC2SPacket::toBytes)
                 .consumerMainThread(SipDataSyncC2SPacket::handle)
+=======
+        net.messageBuilder(MurderS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(MurderS2CPacket::new)
+                .encoder(MurderS2CPacket::toBytes)
+                .consumerMainThread(MurderS2CPacket::handle)
+>>>>>>> Stashed changes
                 .add();
     }
 
