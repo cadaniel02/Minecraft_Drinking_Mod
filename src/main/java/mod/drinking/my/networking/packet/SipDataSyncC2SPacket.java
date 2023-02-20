@@ -1,24 +1,23 @@
 package mod.drinking.my.networking.packet;
 
-import mod.drinking.my.client.ClientSipData;
+import mod.drinking.my.sipcount.PlayerSipsProvider;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class SipDataSyncS2CPacket {
+public class SipDataSyncC2SPacket {
     private final int sips;
     private final int totalsips;
     private static final String MESSAGE_RESET_SIPS = "message.drinkingmod.reset_sips";
-    public SipDataSyncS2CPacket(int sips, int totalsips){
+    public SipDataSyncC2SPacket(int sips, int totalsips){
         this.sips = sips;
         this.totalsips = totalsips;
     }
-    public SipDataSyncS2CPacket(FriendlyByteBuf buf){
+    public SipDataSyncC2SPacket(FriendlyByteBuf buf){
         this.sips = buf.readInt();
         this.totalsips = buf.readInt();
 
@@ -27,19 +26,21 @@ public class SipDataSyncS2CPacket {
         buf.writeInt(sips);
         buf.writeInt(totalsips);
     }
+
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
+
         context.enqueueWork(() -> {
-        //HERE WE ARE ON CLIENT
-            ClientSipData.set(sips, totalsips);
+// HERE WE ARE ON THE SERVER!
 
-            LocalPlayer player = Minecraft.getInstance().player;
+            ServerPlayer player = context.getSender();
 
-//            player.sendSystemMessage(Component.literal("Current Sips " + sips + "\nTotal Sips: " + totalsips)
-//                    .withStyle(ChatFormatting.YELLOW));
-
+            player.getCapability(PlayerSipsProvider.PLAYER_SIPS).ifPresent(sips -> {
+                sips.set_sips(this.sips, this.totalsips);
+                player.sendSystemMessage(Component.literal("Current Sips " + sips.get_sips() + "\nTotal Sips: " + sips.get_totalSips())
+                        .withStyle(ChatFormatting.BLUE));
+            });
         });
-
         return true;
     }
 }

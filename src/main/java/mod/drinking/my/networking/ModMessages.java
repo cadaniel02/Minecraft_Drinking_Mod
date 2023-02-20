@@ -33,17 +33,25 @@ public class ModMessages {
                 .encoder(ResetSipsC2SPacket::toBytes)
                 .consumerMainThread(ResetSipsC2SPacket::handle)
                 .add();
-
         net.messageBuilder(SipDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(SipDataSyncS2CPacket::new)
                 .encoder(SipDataSyncS2CPacket::toBytes)
                 .consumerMainThread(SipDataSyncS2CPacket::handle)
                 .add();
-
         net.messageBuilder(WetDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(WetDataSyncS2CPacket::new)
                 .encoder(WetDataSyncS2CPacket::toBytes)
                 .consumerMainThread(WetDataSyncS2CPacket::handle)
+                .add();
+        net.messageBuilder(SipDataSyncC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SipDataSyncC2SPacket::new)
+                .encoder(SipDataSyncC2SPacket::toBytes)
+                .consumerMainThread(SipDataSyncC2SPacket::handle)
+                .add();
+        net.messageBuilder(MurderS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(MurderS2CPacket::new)
+                .encoder(MurderS2CPacket::toBytes)
+                .consumerMainThread(MurderS2CPacket::handle)
                 .add();
     }
 

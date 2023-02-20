@@ -20,24 +20,20 @@ public class DrinkHUD {
     public static float murderOpacity;
     private static final ResourceLocation FILLED_THIRST = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/filled_thirst.png");
-
     private static final ResourceLocation NO_SIPS = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/has_sips2.png");
     private static final ResourceLocation BOTTLE = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/has_sips1.png");
     private static final ResourceLocation PRESS_L = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/press_k.png");
-
     private static final ResourceLocation LIFETIME = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/total.png");
     private static final ResourceLocation TAKE = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/take.png");
-
     private static final ResourceLocation SIPS = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/sips.png");
     private static final ResourceLocation MURDER = new ResourceLocation(DrinkingMod.MODID,
             "textures/drinks/murder.png");
-
 
     public static final IGuiOverlay HUD_DRINK = ((gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;
@@ -68,10 +64,7 @@ public class DrinkHUD {
             drawSipBox(poseStack, width, height);
             drawCurSipAmount(poseStack, width, height);
         }
-
-
-        });
-
+    });
     private static void drawMurderText(PoseStack poseStack, int width, int height){
         int promptSize = 200;
 
@@ -91,7 +84,6 @@ public class DrinkHUD {
         GuiComponent.blit(poseStack,width/4 + 100 , 10,0,0,promptSize,promptSize,
                 promptSize,promptSize);
     }
-
     private static void drawLifetimeText(PoseStack poseStack, int width, int height) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, LIFETIME);
@@ -100,7 +92,6 @@ public class DrinkHUD {
     }
     private static void drawTotalSipAmount(PoseStack poseStack, int size, int width, int height, int totalSips){
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
         if(totalSips< 10){
             int textSize = size;
             //files has number one higher than glyph
@@ -160,8 +151,6 @@ public class DrinkHUD {
             RenderSystem.setShaderTexture(0, number2);
             GuiComponent.blit(poseStack,width + 2 , height,0,0,textSize,textSize,
                     textSize,textSize);
-
-
         }
     }
     private static void drawSipBox(PoseStack poseStack, int width, int height){
@@ -215,9 +204,6 @@ public class DrinkHUD {
             GuiComponent.blit(poseStack,width - width/5 + 12 , height/4 + 29,0,0,textSize,textSize,
                     textSize,textSize);
         }
-
-
-
     }
     private static void sipTriggerText(PoseStack poseStack, int width){
         if(ClientSipData.getSipStatus()){
@@ -231,5 +217,4 @@ public class DrinkHUD {
             opacity -= 0.01f;
         }
     }
-    }
-
+}

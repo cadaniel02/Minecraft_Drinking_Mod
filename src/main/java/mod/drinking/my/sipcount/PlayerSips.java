@@ -18,13 +18,15 @@ public class PlayerSips {
     }
 
     public void dec_timer(){
-        siptimer--;
+        if(siptimer > 0) {
+            siptimer--;
+        }
     }
 
     public void add_sips(int add){
         sips = Math.max(sips + add, MIN_SIPS);
         totalSips = Math.max(totalSips + add, MIN_SIPS);
-        siptimer = 50;
+        siptimer = 10;
     }
 
     public void set_sips(int setsips, int settotalsips){

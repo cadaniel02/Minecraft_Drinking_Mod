@@ -14,8 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class ClientSipData {
     private static int playerSips;
     private static int totalSips;
-    private static boolean takingSip = false;
-
+    private static boolean takingSip;
 
     public static void set(int sips, int totalSips) {
         ClientSipData.playerSips = sips;
