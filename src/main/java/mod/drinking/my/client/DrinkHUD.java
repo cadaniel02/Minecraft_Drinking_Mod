@@ -64,6 +64,7 @@ public class DrinkHUD {
             drawSipBox(poseStack, width, height);
             drawCurSipAmount(poseStack, width, height);
         }
+
     });
     private static void drawMurderText(PoseStack poseStack, int width, int height){
         int promptSize = 200;
@@ -206,7 +207,6 @@ public class DrinkHUD {
         }
     }
     private static void sipTriggerText(PoseStack poseStack, int width){
-        if(ClientSipData.getSipStatus()){
             int promptSize = 200;
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, opacity);
             ResourceLocation takeSip = new ResourceLocation(DrinkingMod.MODID,
@@ -215,6 +215,5 @@ public class DrinkHUD {
             GuiComponent.blit(poseStack,width/4 + 10 , 30,0,0,promptSize,promptSize,
                     promptSize,promptSize);
             opacity -= 0.01f;
-        }
     }
 }

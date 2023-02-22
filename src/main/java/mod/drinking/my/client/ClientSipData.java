@@ -19,7 +19,8 @@ public class ClientSipData {
     public static void set(int sips, int totalSips) {
         ClientSipData.playerSips = sips;
         ClientSipData.totalSips = totalSips;
-
+        if(playerSips > 0)
+            DrinkHUD.opacity = 1f;
     }
 
     public static void triggerSipPrompt(){
@@ -34,7 +35,6 @@ public class ClientSipData {
         playerSips += add;
         totalSips += add;
         takingSip = true;
-        DrinkHUD.opacity = 1;
     }
 
     public static int getPlayerSips() {
