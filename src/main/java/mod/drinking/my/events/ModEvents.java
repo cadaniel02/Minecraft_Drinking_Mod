@@ -55,6 +55,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -96,6 +97,8 @@ public class ModEvents {
         }
     }
 
+
+
     @SubscribeEvent
     public static void onMurderAddSip(LivingDeathEvent event) {
         Entity entity = event.getEntity();
@@ -129,6 +132,7 @@ public class ModEvents {
                                 sips.add_sips(1);
                                 ModMessages.sendToPlayer(new SipDataSyncS2CPacket(sips.get_sips(), sips.get_totalSips()), player);
                             }
+                            sips.set_timer(12);
                         });
                     }
                     boolean check = player.isInWater() || (wet.is_wet() && hasWaterUnderThem(player, player.getLevel()));
@@ -224,18 +228,18 @@ public class ModEvents {
     }
 
 
-    private static boolean hasWaterUnderThem(ServerPlayer player, ServerLevel level) {
-
-        int blockX = (int) Math.floor(player.getX());
-
-        int blockY = (int) Math.floor(player.getY()) - 1;
-
-        int blockZ = (int) Math.floor(player.getZ());
-
-        BlockPos blockPosBelow = new BlockPos(blockX, blockY - 1, blockZ);
-        BlockPos blockPosOn = new BlockPos(blockX, blockY, blockZ);
-        return level.getBlockState(blockPosBelow).getMaterial().isLiquid() || level.getBlockState(blockPosOn).getMaterial().isLiquid();
-    }
+//    private static boolean hasWaterUnderThem(ServerPlayer player, ServerLevel level) {
+//
+//        int blockX = (int) Math.floor(player.getX());
+//
+//        int blockY = (int) Math.floor(player.getY()) - 1;
+//
+//        int blockZ = (int) Math.floor(player.getZ());
+//
+//        BlockPos blockPosBelow = new BlockPos(blockX, blockY - 1, blockZ);
+//        BlockPos blockPosOn = new BlockPos(blockX, blockY, blockZ);
+//        return level.getBlockState(blockPosBelow).getMaterial().isLiquid() || level.getBlockState(blockPosOn).getMaterial().isLiquid();
+//    }
 
     private static boolean hasWaterUnderThem(Player player, Level level) {
         int blockX = (int) Math.floor(player.getX());

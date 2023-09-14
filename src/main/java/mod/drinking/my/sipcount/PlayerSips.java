@@ -5,6 +5,8 @@ public class PlayerSips {
     private int sips;
     private int totalSips;
     private int siptimer;
+
+    private boolean drinking;
     private final int MIN_SIPS = 0;
 
     public int get_sips(){
@@ -16,6 +18,12 @@ public class PlayerSips {
     public int get_timer(){
         return siptimer;
     }
+
+    public void set_timer(int time) {siptimer = time;}
+
+    public void set_drinking(boolean d) {drinking = d;}
+
+    public boolean get_drinking() {return drinking;}
 
     public void dec_timer(){
         if(siptimer > 0) {

@@ -21,7 +21,6 @@ public class SipDataSyncS2CPacket {
     public SipDataSyncS2CPacket(FriendlyByteBuf buf){
         this.sips = buf.readInt();
         this.totalsips = buf.readInt();
-
     }
     public void toBytes(FriendlyByteBuf buf){
         buf.writeInt(sips);
@@ -32,7 +31,6 @@ public class SipDataSyncS2CPacket {
         context.enqueueWork(() -> {
         //HERE WE ARE ON CLIENT
             ClientSipData.set(sips, totalsips);
-
             LocalPlayer player = Minecraft.getInstance().player;
 
 //            player.sendSystemMessage(Component.literal("Current Sips " + sips + "\nTotal Sips: " + totalsips)

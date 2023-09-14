@@ -4,7 +4,6 @@ import mod.drinking.my.DrinkingMod;
 import mod.drinking.my.client.ClientSipData;
 import mod.drinking.my.networking.ModMessages;
 import mod.drinking.my.networking.packet.ResetSipsC2SPacket;
-import mod.drinking.my.networking.packet.SipDataSyncC2SPacket;
 import mod.drinking.my.util.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -33,7 +32,7 @@ public class ClientEvents {
                 }
             }
         }
-    }
+    }w
 
 
 
